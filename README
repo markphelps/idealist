@@ -1,0 +1,3 @@
+= Idealist
+
+Idealist is a simple {Sinatra}[http://www.sinatrarb.com/] app using {DataMapper}[http://datamapper.org/] as the ORM to keep track of prospective app ideas.

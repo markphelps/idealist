@@ -1,0 +1,8 @@
+- if !@ideas.blank?
+	%ul
+	-for idea in @ideas
+		%li
+			=escape_html idea.summary
+			=escape_html idea.updated_at
+-else
+	%p= "No Ideas"
