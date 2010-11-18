@@ -1,12 +1,17 @@
-%a{:href => '/'} All Ideas
+!!!
+%html
+	%head
+		%title New Idea
+	%body
+		%a{:href => '/'} All Ideas
 
-%form{:action => '/create', :method => 'post'}
-	%dl
-		%dt Summary
-		%dd 
-			%input{:type => 'text', :name => 'idea_summary'}
-		%dt Idea
-		%dd
-			%textarea{:name => 'idea_body'}
+		%form{:action => '/create', :method => 'post'}
+			%dl
+				%dt Summary
+				%dd 
+					%input{:type => 'text', :name => 'idea_summary'}
+				%dt Idea
+				%dd
+					%textarea{:name => 'idea_body'}
 			
-		%input{:type => 'submit', :value => 'Submit'}
+				%input{:type => 'submit', :value => 'Submit'}
