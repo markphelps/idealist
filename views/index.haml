@@ -1,4 +1,4 @@
-%a{:href => '/new'} New
+%a{:href => '/new'} New Idea
 
 - if !@ideas.blank?
 	%dl
@@ -8,4 +8,4 @@
 		%dd
 			=escape_html idea.updated_at.strftime("%B %d, %Y at %I:%M %p")
 -else
-	%p "No Ideas"
+	%p No Ideas

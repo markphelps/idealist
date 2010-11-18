@@ -6,5 +6,11 @@
 		%dd=escape_html @idea.summary
 		%dt Idea
 		%dd=escape_html @idea.body
+		
+	%form{:action => "/#{@idea.id}", :method => 'post'}
+		%input{:type => 'hidden', :name => '_method', :value => 'delete'}
+		%input{:type => 'hidden', :name => 'id', :value => "#{@idea.id}"}
+		%input{:type => 'submit', :value => 'delete'}
+		
 -else
-	Invalid ID
+	%p Invalid ID

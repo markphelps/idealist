@@ -4,6 +4,8 @@ require 'dm-validations'
 require 'dm-timestamps'
 require 'dm-migrations'
 
+use Rack::MethodOverride
+
 DataMapper.setup(:default, {
   :socket => "/Applications/MAMP/tmp/mysql/mysql.sock",
   :adapter => 'mysql',
@@ -55,4 +57,13 @@ get '/:id' do
   else
     redirect '/'
   end  
+end
+
+delete '/:id' do
+  @idea = Idea.get(params[:id])
+  if @idea.destroy
+    haml :index
+  else
+    redirect "#{@idea.id}"
+  end
 end
