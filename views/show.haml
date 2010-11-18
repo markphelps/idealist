@@ -1,0 +1,10 @@
+%a{:href => '/'} All Ideas
+
+-if !@idea.nil?
+	%dl
+		%dt Summary
+		%dd=escape_html @idea.summary
+		%dt Idea
+		%dd=escape_html @idea.body
+-else
+	Invalid ID

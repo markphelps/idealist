@@ -1,8 +1,11 @@
+%a{:href => '/new'} New
+
 - if !@ideas.blank?
-	%ul
+	%dl
 	-for idea in @ideas
-		%li
-			=escape_html idea.summary
-			=escape_html idea.updated_at
+		%dt
+			%a{:href => "/#{idea.id}"}	#{idea.summary}
+		%dd
+			=escape_html idea.updated_at.strftime("%B %d, %Y at %I:%M %p")
 -else
-	%p= "No Ideas"
+	%p "No Ideas"
