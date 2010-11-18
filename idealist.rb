@@ -62,8 +62,8 @@ end
 delete '/:id' do
   @idea = Idea.get(params[:id])
   if @idea.destroy
-    haml :index
+    redirect '/'
   else
-    redirect "#{@idea.id}"
+    haml :show
   end
 end
