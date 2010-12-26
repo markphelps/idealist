@@ -59,6 +59,26 @@ get '/:id' do
   end  
 end
 
+get '/edit/:id' do
+  @idea = Idea.get(params[:id])
+  if @idea
+    haml :edit
+  else
+    redirect '/'
+  end
+end
+
+post '/update/:id' do
+  @idea = Idea.get(params[:id])
+  @idea.summary = params[:idea_summary]
+  @idea.body = params[:idea_body]
+  if @idea.save
+    haml :show
+  else
+    redirect '/'
+  end
+end
+
 delete '/:id' do
   @idea = Idea.get(params[:id])
   if @idea.destroy

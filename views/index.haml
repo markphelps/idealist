@@ -1,15 +1,10 @@
-!!!
-%html
-	%head
-		%title Ideas
-	%body
-		%a{:href => '/new'} New Idea
+%a{:href => '/new'} New Idea
 
-		- if !@ideas.blank?
-			%dl
-			-for idea in @ideas
-				%dt
-					%a{:href => "/#{idea.id}"}	#{idea.summary}
-				%dd= escape_html idea.updated_at.strftime("%B %d, %Y at %I:%M %p")
-		-else
-			%p No Ideas
+- if !@ideas.blank?
+	%dl
+	-for idea in @ideas
+		%dt
+			%a{:href => "/#{idea.id}"}	#{idea.summary}
+		%dd= escape_html idea.updated_at.strftime("%B %d, %Y at %I:%M %p")
+-else
+	%p No Ideas

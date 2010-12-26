@@ -1,0 +1,12 @@
+%a{:href => '/'} All Ideas
+
+%form{:action => "/update/#{@idea.id}", :method => 'post'}
+	%dl
+		%dt Summary
+		%dd 
+			%input{:type => 'text', :name => 'idea_summary', :value => @idea.summary}
+		%dt Idea
+		%dd
+			%textarea{:name => 'idea_body'}= @idea.body
+
+		%input{:type => 'submit', :value => 'Submit'}

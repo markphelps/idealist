@@ -1,21 +1,18 @@
-!!!
-%html
-	%head
-		%title= @idea.summary
-	%body
-		%a{:href => '/'} All Ideas
+%a{:href => '/'} All Ideas
 
-		-if !@idea.nil?
-			%dl
-				%dt Summary
-				%dd= escape_html @idea.summary
-				%dt Idea
-				%dd= escape_html @idea.body
-		
-			%form{:action => "/#{@idea.id}", :method => 'post'}
-				%input{:type => 'hidden', :name => '_method', :value => 'delete'}
-				%input{:type => 'hidden', :name => 'id', :value => "#{@idea.id}"}
-				%input{:type => 'submit', :value => 'Delete'}
-		
-		-else
-			%p Invalid ID
+-if !@idea.nil?
+	%dl
+		%dt Summary
+		%dd= escape_html @idea.summary
+		%dt Idea
+		%dd= escape_html @idea.body
+
+	%a{:href => "/edit/#{@idea.id}"} Edit Idea
+	
+	%form{:action => "/#{@idea.id}", :method => 'post'}
+		%input{:type => 'hidden', :name => '_method', :value => 'delete'}
+		%input{:type => 'hidden', :name => 'id', :value => "#{@idea.id}"}
+		%input{:type => 'submit', :value => 'Delete'}
+
+-else
+	%p Invalid ID
