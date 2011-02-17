@@ -2,9 +2,7 @@
 
 -if !@idea.nil?
 	%dl
-		%dt Summary
-		%dd= escape_html @idea.summary
-		%dt Idea
+		%dt Idea/ToDo
 		%dd= escape_html @idea.body
 
 	%a{:href => "/edit/#{@idea.id}"} Edit Idea

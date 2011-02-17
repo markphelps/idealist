@@ -1,11 +1,8 @@
-%a{:href => '/'} All Ideas
+%a{:href => '/'} All Ideas/ToDos
 
 %form{:action => "/update/#{@idea.id}", :method => 'post'}
 	%dl
-		%dt Summary
-		%dd 
-			%input{:type => 'text', :name => 'idea_summary', :value => @idea.summary}
-		%dt Idea
+		%dt Idea/ToDo
 		%dd
 			%textarea{:name => 'idea_body'}= @idea.body
 

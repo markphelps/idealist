@@ -1,11 +1,8 @@
-%a{:href => '/'} All Ideas
+%a{:href => '/'} All Ideas/ToDos
 
 %form{:action => '/create', :method => 'post'}
 	%dl
-		%dt Summary
-		%dd 
-			%input{:type => 'text', :name => 'idea_summary'}
-		%dt Idea
+		%dt Idea/ToDo
 		%dd
 			%textarea{:name => 'idea_body'}
 	

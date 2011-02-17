@@ -19,7 +19,6 @@ class Idea
   include DataMapper::Resource
 
   property :id,         Serial    # primary serial key
-  property :summary,    String
   property :body,       Text
   property :created_at, DateTime
   property :updated_at, DateTime
@@ -31,7 +30,7 @@ end
 DataMapper.auto_upgrade!
 
 get '/' do
-  @ideas = Idea.all
+  @ideas = Idea.all(:order => [ :id.desc ])
   if @ideas
     haml :index
   end
@@ -42,7 +41,7 @@ get '/new' do
 end
 
 post '/create' do
-  @idea = Idea.new(:summary => params[:idea_summary], :body => params[:idea_body])
+  @idea = Idea.new(:body => params[:idea_body])
   if @idea.save
     redirect "/#{@idea.id}"
   else
@@ -70,7 +69,6 @@ end
 
 post '/update/:id' do
   @idea = Idea.get(params[:id])
-  @idea.summary = params[:idea_summary]
   @idea.body = params[:idea_body]
   if @idea.save
     haml :show
