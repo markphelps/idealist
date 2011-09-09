@@ -1,5 +1,5 @@
 #new
-	%form{:action => '/create', :method => 'post', :id => 'new_form'}
+	%form{:action => '/thoughts/create', :method => 'post', :id => 'new_form'}
 		%dl
 			%dt New Thought
 			%dd
@@ -13,10 +13,10 @@
 			%p All Thoughts
 			-for thought in @thoughts
 				%dt
-					%a{:href => "/#{thought.id}"} #{thought.body}
+					%a{:href => "/thoughts/#{thought.id}"} #{thought.body}
 				%dd
 					= escape_html thought.updated_at.strftime("%B %d, %Y at %I:%M %p")
-				%form{:action => "/#{thought.id}", :method => 'post'}
+				%form{:action => "/thoughts/#{thought.id}", :method => 'post'}
 					%input{:type => 'hidden', :name => '_method', :value => 'delete'}
 					%input{:type => 'hidden', :name => 'id', :value => "#{thought.id}"}
 					%input{:type => 'submit', :value => 'Delete'}

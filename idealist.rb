@@ -36,64 +36,59 @@ end
 
 DataMapper.auto_upgrade!
 
-get '/' do
-  @thoughts = Thought.all(:order => [ :id.desc ])
-  haml :index
-end
-
 get '/thoughts' do
   @thoughts = Thought.all(:order => [ :id.desc ])
   respond_to do |wants|
     wants.html { haml :index }
-    wants.json { @thoughts.to_ary.to_json }
+    wants.json { JSON.pretty_generate @thoughts.to_ary }
   end
 end
 
-get '/new' do
+get '/thoughts/new' do
   haml :new
 end
 
-post '/create' do
+post '/thoughts/create' do
   @thought = Thought.new(:body => params[:thought_body])
   @thought.save
-  redirect '/'
+  redirect '/thoughts'
 end
 
-get '/:id' do
+get '/thoughts/:id' do
   @thought = Thought.get(params[:id])
   if @thought
     respond_to do |wants|
       wants.html { haml :show }
-      wants.json { @thought.to_json }
+      wants.json { JSON.pretty_generate @thought }
     end
   else
-    redirect '/'
+    redirect '/thoughts'
   end
 end
 
-get '/edit/:id' do
+get '/thoughts/edit/:id' do
   @thought = Thought.get(params[:id])
   if @thought
     haml :edit
   else
-    redirect '/'
+    redirect '/thoughts'
   end
 end
 
-post '/update/:id' do
+post '/thoughts/update/:id' do
   @thought = Thought.get(params[:id])
   @thought.body = params[:thought_body]
   if @thought.save
     haml :show
   else
-    redirect '/'
+    redirect '/thoughts'
   end
 end
 
-delete '/:id' do
+delete '/thoughts/:id' do
   @thought = Thought.get(params[:id])
   if @thought.destroy
-    redirect '/'
+    redirect '/thoughts'
   else
     haml :show
   end

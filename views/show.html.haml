@@ -1,13 +1,13 @@
-%a{:href => '/'} All Thoughts
+%a{:href => '/thoughts'} All Thoughts
 
 -if !@thought.nil?
 	%dl
 		%dt Thought
 		%dd= escape_html @thought.body
 
-	%a{:href => "/edit/#{@thought.id}"} Edit Thought
+	%a{:href => "/thoughts/edit/#{@thought.id}"} Edit Thought
 
-	%form{:action => "/#{@thought.id}", :method => 'post'}
+	%form{:action => "/thoughts/#{@thought.id}", :method => 'post'}
 		%input{:type => 'hidden', :name => '_method', :value => 'delete'}
 		%input{:type => 'hidden', :name => 'id', :value => "#{@thought.id}"}
 		%input{:type => 'submit', :value => 'Delete'}
