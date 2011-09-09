@@ -15,23 +15,22 @@ DataMapper.setup(:default, {
   :password => 'root'
 })
 
-class Idea
+class Thought
   include DataMapper::Resource
 
   property :id,         Serial    # primary serial key
   property :body,       Text
   property :created_at, DateTime
   property :updated_at, DateTime
-  
-  validates_presence_of :summary
-  validates_length_of :summary, :minimum => 1
+
+  validates_length_of :body, :minimum => 1
 end
 
 DataMapper.auto_upgrade!
 
 get '/' do
-  @ideas = Idea.all(:order => [ :id.desc ])
-  if @ideas
+  @thoughts = Thought.all(:order => [ :id.desc ])
+  if @thoughts
     haml :index
   end
 end
@@ -41,26 +40,23 @@ get '/new' do
 end
 
 post '/create' do
-  @idea = Idea.new(:body => params[:idea_body])
-  if @idea.save
-    redirect "/#{@idea.id}"
-  else
-    redirect '/new'
-  end  
+  @thought = Thought.new(:body => params[:thought_body])
+  @thought.save
+  redirect '/'
 end
 
 get '/:id' do
-  @idea = Idea.get(params[:id])
-  if @idea
+  @thought = Thought.get(params[:id])
+  if @thought
     haml :show
   else
     redirect '/'
-  end  
+  end
 end
 
 get '/edit/:id' do
-  @idea = Idea.get(params[:id])
-  if @idea
+  @thought = Thought.get(params[:id])
+  if @thought
     haml :edit
   else
     redirect '/'
@@ -68,9 +64,9 @@ get '/edit/:id' do
 end
 
 post '/update/:id' do
-  @idea = Idea.get(params[:id])
-  @idea.body = params[:idea_body]
-  if @idea.save
+  @thought = Thought.get(params[:id])
+  @thought.body = params[:thought_body]
+  if @thought.save
     haml :show
   else
     redirect '/'
@@ -78,8 +74,8 @@ post '/update/:id' do
 end
 
 delete '/:id' do
-  @idea = Idea.get(params[:id])
-  if @idea.destroy
+  @thought = Thought.get(params[:id])
+  if @thought.destroy
     redirect '/'
   else
     haml :show

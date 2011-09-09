@@ -1,15 +1,15 @@
-%a{:href => '/'} All Ideas
+%a{:href => '/'} All Thoughts
 
--if !@idea.nil?
+-if !@thought.nil?
 	%dl
-		%dt Idea/ToDo
-		%dd= escape_html @idea.body
+		%dt Thought
+		%dd= escape_html @thought.body
 
-	%a{:href => "/edit/#{@idea.id}"} Edit Idea
-	
-	%form{:action => "/#{@idea.id}", :method => 'post'}
+	%a{:href => "/edit/#{@thought.id}"} Edit Thought
+
+	%form{:action => "/#{@thought.id}", :method => 'post'}
 		%input{:type => 'hidden', :name => '_method', :value => 'delete'}
-		%input{:type => 'hidden', :name => 'id', :value => "#{@idea.id}"}
+		%input{:type => 'hidden', :name => 'id', :value => "#{@thought.id}"}
 		%input{:type => 'submit', :value => 'Delete'}
 
 -else
