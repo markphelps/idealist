@@ -16,9 +16,9 @@
 					%a{:href => "/thoughts/#{thought.id}"} #{thought.body}
 				%dd
 					= escape_html thought.updated_at.strftime("%B %d, %Y at %I:%M %p")
-				%form{:action => "/thoughts/#{thought.id}", :method => 'post'}
-					%input{:type => 'hidden', :name => '_method', :value => 'delete'}
-					%input{:type => 'hidden', :name => 'id', :value => "#{thought.id}"}
-					%input{:type => 'submit', :value => 'Delete'}
+					%form{:action => "/thoughts/#{thought.id}", :method => 'post'}
+						%input{:type => 'hidden', :name => '_method', :value => 'delete'}
+						%input{:type => 'hidden', :name => 'id', :value => "#{thought.id}"}
+						%input{:type => 'submit', :value => 'Delete'}
 	-else
 		%p No Thoughts

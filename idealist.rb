@@ -28,12 +28,22 @@ class Thought
   property :updated_at, DateTime
 
   validates_length_of :body, :minimum => 1
+  belongs_to :bucket, :required => false
 
   def to_json(*a)
       {:id => id, :body => body, :created_at => created_at, :updated_at => updated_at}.to_json(*a)
   end
 end
 
+class Bucket
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :name, String
+
+  has n, :thoughts
+end
+DataMapper.finalize
 DataMapper.auto_upgrade!
 
 get '/thoughts' do
