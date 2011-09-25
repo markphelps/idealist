@@ -1,0 +1,9 @@
+%a{:href => '/buckets'} All Buckets
+
+%form{:action => '/buckets/create', :method => 'post'}
+	%dl
+		%dt Bucket
+		%dd
+			%input{:type => 'text', :name => 'bucket_name'}
+
+		%input{:type => 'submit', :value => 'Submit'}

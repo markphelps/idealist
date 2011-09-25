@@ -28,10 +28,11 @@ class Thought
   property :updated_at, DateTime
 
   validates_length_of :body, :minimum => 1
+
   belongs_to :bucket, :required => false
 
   def to_json(*a)
-      {:id => id, :body => body, :created_at => created_at, :updated_at => updated_at}.to_json(*a)
+    JSON.pretty_generate({:id => id, :body => body, :created_at => created_at, :updated_at => updated_at})
   end
 end
 
@@ -41,21 +42,68 @@ class Bucket
   property :id, Serial
   property :name, String
 
+  validates_length_of :name, :minimum => 1
+
   has n, :thoughts
+
+  def to_json(*a)
+    JSON.pretty_generate({:id => id, :name => name})
+  end
 end
+
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
-get '/thoughts' do
-  @thoughts = Thought.all(:order => [ :id.desc ])
+get '/buckets' do
+  @buckets = Bucket.all(:order => [:id.desc])
   respond_to do |wants|
-    wants.html { haml :index }
-    wants.json { JSON.pretty_generate @thoughts.to_ary }
+     wants.html { haml :"buckets/index" }
+     wants.json { @buckets.to_ary.to_json }
+   end
+end
+
+get '/buckets/new' do
+  haml :"buckets/new"
+end
+
+post '/buckets/create' do
+  @bucket = Bucket.new(:name => params[:bucket_name])
+  @bucket.save
+  redirect '/buckets'
+end
+
+get '/buckets/edit/:id' do
+  @bucket = Bucket.get(params[:id])
+  if @bucket
+    haml :"buckets/edit"
+  else
+    redirect '/buckets'
+  end
+end
+
+post '/buckets/update/:id' do
+  @bucket = Bucket.get(params[:id])
+  @bucket.name = params[:bucket_name]
+  @bucket.save
+  redirect '/buckets'
+end
+
+delete '/buckets/:id' do
+  @bucket = Bucket.get(params[:id])
+  @bucket.destroy
+  redirect '/buckets'
+end
+
+get '/thoughts' do
+  @thoughts = Thought.all(:order => [:id.desc])
+  respond_to do |wants|
+    wants.html { haml :"thoughts/index" }
+    wants.json { @thoughts.to_ary.to_json }
   end
 end
 
 get '/thoughts/new' do
-  haml :new
+  haml :"thoughts/new"
 end
 
 post '/thoughts/create' do
@@ -68,8 +116,8 @@ get '/thoughts/:id' do
   @thought = Thought.get(params[:id])
   if @thought
     respond_to do |wants|
-      wants.html { haml :show }
-      wants.json { JSON.pretty_generate @thought }
+      wants.html { haml :"thoughts/show" }
+      wants.json { @thought.to_json }
     end
   else
     redirect '/thoughts'
@@ -79,7 +127,7 @@ end
 get '/thoughts/edit/:id' do
   @thought = Thought.get(params[:id])
   if @thought
-    haml :edit
+    haml :"thoughts/edit"
   else
     redirect '/thoughts'
   end
@@ -89,7 +137,7 @@ post '/thoughts/update/:id' do
   @thought = Thought.get(params[:id])
   @thought.body = params[:thought_body]
   if @thought.save
-    haml :show
+    haml :"thoughts/show"
   else
     redirect '/thoughts'
   end
@@ -100,6 +148,6 @@ delete '/thoughts/:id' do
   if @thought.destroy
     redirect '/thoughts'
   else
-    haml :show
+    haml :"thoughts/show"
   end
 end

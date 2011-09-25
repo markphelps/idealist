@@ -1,0 +1,9 @@
+%a{:href => '/buckets'} All Buckets
+
+%form{:action => "/buckets/update/#{@bucket.id}", :method => 'post'}
+	%dl
+		%dt Bucket
+		%dd
+			%input{:type => 'text', :name => 'bucket_name', :value => @bucket.name}
+
+		%input{:type => 'submit', :value => 'Submit'}
