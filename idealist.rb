@@ -29,14 +29,14 @@ class Thought
 
   validates_length_of :body, :minimum => 1
 
-  belongs_to :bucket, :required => false
+  belongs_to :list, :required => false
 
   def to_json(*a)
     JSON.pretty_generate({:id => id, :body => body, :created_at => created_at, :updated_at => updated_at})
   end
 end
 
-class Bucket
+class List
   include DataMapper::Resource
 
   property :id, Serial
@@ -54,44 +54,44 @@ end
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
-get '/buckets' do
-  @buckets = Bucket.all(:order => [:id.desc])
+get '/lists' do
+  @lists = List.all(:order => [:id.desc])
   respond_to do |wants|
-     wants.html { haml :"buckets/index" }
-     wants.json { @buckets.to_ary.to_json }
+     wants.html { haml :"lists/index" }
+     wants.json { @lists.to_ary.to_json }
    end
 end
 
-get '/buckets/new' do
-  haml :"buckets/new"
+get '/lists/new' do
+  haml :"lists/new"
 end
 
-post '/buckets/create' do
-  @bucket = Bucket.new(:name => params[:bucket_name])
-  @bucket.save
-  redirect '/buckets'
+post '/lists/create' do
+  @list = List.new(:name => params[:list_name])
+  @list.save
+  redirect '/lists'
 end
 
-get '/buckets/edit/:id' do
-  @bucket = Bucket.get(params[:id])
-  if @bucket
-    haml :"buckets/edit"
+get '/lists/edit/:id' do
+  @list = List.get(params[:id])
+  if @list
+    haml :"lists/edit"
   else
-    redirect '/buckets'
+    redirect '/lists'
   end
 end
 
-post '/buckets/update/:id' do
-  @bucket = Bucket.get(params[:id])
-  @bucket.name = params[:bucket_name]
-  @bucket.save
-  redirect '/buckets'
+post '/lists/update/:id' do
+  @list = List.get(params[:id])
+  @list.name = params[:list_name]
+  @list.save
+  redirect '/lists'
 end
 
-delete '/buckets/:id' do
-  @bucket = Bucket.get(params[:id])
-  @bucket.destroy
-  redirect '/buckets'
+delete '/lists/:id' do
+  @list = List.get(params[:id])
+  @list.destroy
+  redirect '/lists'
 end
 
 get '/thoughts' do

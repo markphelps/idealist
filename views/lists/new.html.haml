@@ -1,0 +1,9 @@
+%a{:href => '/lists'} All Lists
+
+%form{:action => '/lists/create', :method => 'post'}
+	%dl
+		%dt List
+		%dd
+			%input{:type => 'text', :name => 'list_name'}
+
+		%input{:type => 'submit', :value => 'Submit'}
