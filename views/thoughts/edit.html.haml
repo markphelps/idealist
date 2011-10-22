@@ -1,6 +1,6 @@
-%a{:href => '/thoughts'} All Thoughts
+%a{:href => "/lists/#{@list.id}/thoughts"} All Thoughts
 
-%form{:action => "/thoughts/update/#{@thought.id}", :method => 'post'}
+%form{:action => "/lists/#{@list.id}/thoughts/update/#{@thought.id}", :method => 'post'}
 	%dl
 		%dt Thought
 		%dd
