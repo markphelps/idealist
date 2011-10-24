@@ -5,9 +5,7 @@ require 'dm-timestamps'
 require 'dm-migrations'
 require 'json'
 require 'haml'
-require 'sinatra/respond_to'
 
-Sinatra::Application.register Sinatra::RespondTo
 use Rack::MethodOverride
 
 DataMapper.setup(:default, {
@@ -56,25 +54,76 @@ end
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
-get '/lists' do
+## API ##
+
+get '/api/lists/?', :provides => 'json' do
   @lists = List.all(:order => [:id.desc])
-  respond_to do |wants|
-     wants.html { haml :"lists/index" }
-     wants.json { @lists.to_ary.to_json }
-   end
+  @lists.to_ary.to_json
 end
 
-get '/lists/new' do
+post '/api/lists/?' do
+  data = JSON.parse(request.body.read.to_s)
+  if data.nil? || !data.has_key?('name')
+    status 400
+  else
+    list = List.new(:name => data['name'])
+    list.created_at = Time.now
+    list.updated_at = Time.now
+    list.save
+    status 201
+  end
+end
+
+put '/api/lists/?' do
+  data = JSON.parse(request.body.read.to_s)
+  if data.nil? || !data.has_key?('name') || !data.has_key?('id')
+    status 400
+  else
+    list = List.get(data['id'])
+    if list
+      list.name = data['name']
+      list.updated_at = Time.now
+      list.save
+      status 200
+    else
+      status 404
+    end
+  end
+end
+
+delete '/api/lists/?' do
+  data = JSON.parse(request.body.read.to_s)
+  if data.nil? || !data.has_key?('id')
+    status 400
+  else
+    list = List.get(data['id'])
+    if list
+      list.destroy
+      status 200
+    else
+      status 404
+    end
+  end
+end
+
+## HTML ##
+
+get '/lists/?', :provides => 'html' do
+  @lists = List.all(:order => [:id.desc])
+  haml :"lists/index"
+end
+
+get '/lists/new/?' do
   haml :"lists/new"
 end
 
-post '/lists/create' do
+post '/lists/create/?' do
   @list = List.new(:name => params[:list_name])
   @list.save
   redirect '/lists'
 end
 
-get '/lists/edit/:id' do
+get '/lists/edit/:id/?', :provides => 'html'  do
   @list = List.get(params[:id])
   if @list
     haml :"lists/edit"
@@ -83,29 +132,26 @@ get '/lists/edit/:id' do
   end
 end
 
-post '/lists/update/:id' do
+post '/lists/update/:id/?' do
   @list = List.get(params[:id])
   @list.name = params[:list_name]
   @list.save
   redirect '/lists'
 end
 
-delete '/lists/:id' do
+delete '/lists/:id/?' do
   @list = List.get(params[:id])
   @list.destroy
   redirect '/lists'
 end
 
-get '/lists/:listId/thoughts' do
+get '/lists/:listId/thoughts/?', :provides => 'html'  do
   @list = List.get(params[:listId])
   @thoughts = Thought.all(:list_id => @list.id, :order => [:id.desc])
-  respond_to do |wants|
-    wants.html { haml :"thoughts/index" }
-    wants.json { @thoughts.to_ary.to_json }
-  end
+  haml :"thoughts/index"
 end
 
-get '/lists/:listId/thoughts/new' do
+get '/lists/:listId/thoughts/new/?', :provides => 'html' do
   @list = List.get(params[:listId])
   haml :"thoughts/new"
 end
@@ -113,54 +159,43 @@ end
 post '/lists/:listId/thoughts/create' do
   @list = List.get(params[:listId])
   @thought = Thought.new(:list_id => params[:listId], :body => params[:thought_body])
-  @thought.save
   redirect "/lists/#{@list.id}/thoughts"
 end
 
-get '/lists/:listId/thoughts/:id' do
+get '/lists/:listId/thoughts/:id/?', :provides => 'html' do
   @list = List.get(params[:listId])
   @thought = Thought.get(params[:id])
-  if @thought && @thought.list.id == @list.id
-    respond_to do |wants|
-      wants.html { haml :"thoughts/show" }
-      wants.json { @thought.to_json }
-    end
+  if @thought
+    haml :"thoughts/show"
   else
     redirect "/lists/#{@list.id}/thoughts"
   end
 end
 
-get '/lists/:listId/thoughts/edit/:id' do
+get '/lists/:listId/thoughts/edit/:id/?', :provides => 'html' do
   @list = List.get(params[:listId])
   @thought = Thought.get(params[:id])
-  if @thought && @thought.list.id == @list.id
+  if @thought
     haml :"thoughts/edit"
   else
     redirect "/lists/#{@list.id}/thoughts"
   end
 end
 
-post '/lists/:listId/thoughts/update/:id' do
+post '/lists/:listId/thoughts/update/:id/?' do
   @list = List.get(params[:listId])
   @thought = Thought.get(params[:id])
-  if @thought && @thought.list.id == @list.id
-    @thought.body = params[:thought_body]
-    if @thought.save
-      redirect "/lists/#{@list.id}/thoughts/#{@thought.id}"
-    else
-      redirect "/lists/#{@list.id}/thoughts"
-    end
+  @thought.body = params[:thought_body]
+  if @thought.save
+    redirect "/lists/#{@list.id}/thoughts/#{@thought.id}"
   else
     redirect "/lists/#{@list.id}/thoughts"
   end
 end
 
-delete '/lists/:listId/thoughts/:id' do
+delete '/lists/:listId/thoughts/:id/?' do
   @list = List.get(params[:listId])
   @thought = Thought.get(params[:id])
-  if @thought.destroy
-    redirect "/lists/#{@list.id}/thoughts"
-  else
-    haml :"thoughts/show"
-  end
+  @thought.destroy
+  redirect "/lists/#{@list.id}/thoughts"
 end
