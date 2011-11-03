@@ -30,7 +30,7 @@ class Thought
   belongs_to :list, :required => false
 
   def to_json(*a)
-    JSON.pretty_generate({:id => id, :list_id => list.id, :body => body, :created_at => created_at, :updated_at => updated_at})
+    JSON.pretty_generate({:id => id, :body => body, :created_at => created_at, :updated_at => updated_at})
   end
 end
 
@@ -56,11 +56,13 @@ DataMapper.auto_upgrade!
 
 ## API ##
 
+# Get all Lists
 get '/api/lists/?', :provides => 'json' do
-  @lists = List.all(:order => [:id.desc])
-  @lists.to_ary.to_json
+  lists = List.all(:order => [:id.desc])
+  lists.to_ary.to_json
 end
 
+# Create a List
 post '/api/lists/?' do
   data = JSON.parse(request.body.read.to_s)
   if data.nil? || !data.has_key?('name')
@@ -71,38 +73,99 @@ post '/api/lists/?' do
     list.updated_at = Time.now
     list.save
     status 201
+    list.to_json
   end
 end
 
-put '/api/lists/?' do
-  data = JSON.parse(request.body.read.to_s)
-  if data.nil? || !data.has_key?('name') || !data.has_key?('id')
-    status 400
-  else
-    list = List.get(data['id'])
-    if list
+# Update a List
+put '/api/lists/:id/?' do
+  list = List.get(params['id'])
+  if list
+    data = JSON.parse(request.body.read.to_s)
+    if data.nil? || !data.has_key?('name')
+      status 400
+    else
       list.name = data['name']
       list.updated_at = Time.now
       list.save
       status 200
-    else
-      status 404
+      list.to_json
     end
+  else
+    status 404
   end
 end
 
-delete '/api/lists/?' do
-  data = JSON.parse(request.body.read.to_s)
-  if data.nil? || !data.has_key?('id')
-    status 400
+# Delete a List
+delete '/api/lists/:id/?' do
+  list = List.get(params['id'])
+  if list
+    list.destroy
+    status 200
   else
-    list = List.get(data['id'])
-    if list
-      list.destroy
-      status 200
+    status 404
+  end
+end
+
+# Get all Thoughts on a List
+get '/api/lists/:listId/thoughts/?' do
+  list = List.get(params[:listId])
+  if list
+    Thought.all(:list_id => list.id, :order => [:id.desc]).to_ary.to_json
+  else
+    status 404
+  end
+end
+
+# Create a Thought and add to an existing List
+post '/api/lists/:listId/thoughts/?' do
+  list = List.get(params[:listId])
+  if list
+    data = JSON.parse(request.body.read.to_s)
+    if data.nil? || !data.has_key?('body')
+      status 400
     else
-      status 404
+      thought = Thought.new(:list_id => list.id, :body => data['body'])
+      thought.created_at = Time.now
+      thought.updated_at = Time.now
+      thought.save
+      status 201
+      thought.to_json
     end
+  else
+    status 404
+  end
+end
+
+# Update a Thought on an existing List
+put '/api/lists/:listId/thoughts/:id/?' do
+  list = List.get(params[:listId])
+  thought = Thought.get(params[:id])
+  if list && thought
+    data = JSON.parse(request.body.read.to_s)
+    if data.nil? || !data.has_key?('body')
+      status 400
+    else
+      thought.body = data['body']
+      thought.updated_at = Time.now
+      thought.save
+      status 201
+      thought.to_json
+    end
+  else
+    status 404
+  end
+end
+
+# Delete a Thought on an existing list
+delete '/api/lists/:listId/thoughts/:id/?' do
+  list = List.get(params[:listId])
+  thought = Thought.get(params[:id])
+  if list && thought
+    thought.destroy
+    status 200
+  else
+    status 404
   end
 end
 
