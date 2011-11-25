@@ -1,23 +1,18 @@
-#new
-	%form{:action => '/lists/create', :method => 'post'}
-		%dl
-			%dt New List
-			%dd
-				%input{:type => 'text', :name => 'list_name'}
-
-			%input{:type => 'submit', :name => 'submit', :value => 'Submit'}
-
-#list
-	- if !@lists.blank?
-		%dl
-			%p All Lists
-			-for list in @lists
-				%dt
-					%a{:href => "/lists/edit/#{list.id}"} #{list.name}
-				%dd
-					%form{:action => "/lists/#{list.id}", :method => 'post'}
-						%input{:type => 'hidden', :name => '_method', :value => 'delete'}
-						%input{:type => 'hidden', :name => 'id', :value => "#{list.id}"}
-						%input{:type => 'submit', :value => 'Delete'}
-	-else
-		%p No Lists
+%h2 New List
+%form{:action => '/lists/create', :method => 'post', :class => 'form-stacked'}
+  %input{:type => 'text', :name => 'list_name'}
+  %input{:type => 'submit', :name => 'submit', :value => 'Submit', :class => 'btn primary'}
+    
+- if !@lists.blank?
+  %h2 All Lists
+  %dl
+    -for list in @lists
+      %dt
+        %a{:href => "/lists/edit/#{list.id}"} #{list.name}
+      %dd
+        %form{:action => "/lists/#{list.id}", :method => 'post'}
+          %input{:type => 'hidden', :name => '_method', :value => 'delete'}
+          %input{:type => 'hidden', :name => 'id', :value => "#{list.id}"}
+          %input{:type => 'submit', :value => 'Delete', :class => 'btn danger'}
+-else
+  %p No Lists

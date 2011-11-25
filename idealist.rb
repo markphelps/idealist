@@ -243,16 +243,6 @@ post '/lists/:listId/thoughts/create' do
   end
 end
 
-get '/lists/:listId/thoughts/:id/?', :provides => 'html' do
-  @list = List.get(params[:listId])
-  @thought = Thought.get(params[:id])
-  if @thought.list.id === @list.id
-    haml :"thoughts/show"
-  else
-    redirect "/lists/#{@list.id}/thoughts/"
-  end
-end
-
 get '/lists/:listId/thoughts/edit/:id/?', :provides => 'html' do
   @list = List.get(params[:listId])
   @thought = Thought.get(params[:id])

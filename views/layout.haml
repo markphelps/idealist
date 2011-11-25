@@ -1,6 +1,9 @@
 !!!
 %html
-	%head
-		%title Idealist
-	%body
-		= yield
+  %head
+    %title Idealist
+    %link{:rel => 'stylesheet', :href => "http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css"}
+  %body
+    .container
+      %h1 Idealist
+      = yield

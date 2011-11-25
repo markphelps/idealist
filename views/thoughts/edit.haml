@@ -1,9 +1,4 @@
-%a{:href => "/lists/#{@list.id}/thoughts"} All Thoughts
-
-%form{:action => "/lists/#{@list.id}/thoughts/update/#{@thought.id}", :method => 'post'}
-	%dl
-		%dt Thought
-		%dd
-			%textarea{:name => 'thought_body'}= @thought.body
-
-		%input{:type => 'submit', :value => 'Submit'}
+%h2 Edit Thought
+%form{:action => "/lists/#{@list.id}/thoughts/update/#{@thought.id}", :method => 'post', :class => 'form-stacked'}
+  %textarea{:name => 'thought_body'}= @thought.body
+  %input{:type => 'submit', :value => 'Submit', :class => 'btn primary'}

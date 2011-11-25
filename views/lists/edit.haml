@@ -1,9 +1,4 @@
-%a{:href => '/lists'} All Lists
-
-%form{:action => "/lists/update/#{@list.id}", :method => 'post'}
-	%dl
-		%dt List
-		%dd
-			%input{:type => 'text', :name => 'list_name', :value => @list.name}
-
-		%input{:type => 'submit', :value => 'Submit'}
+%h2 Edit List
+%form{:action => "/lists/update/#{@list.id}", :method => 'post', :class => 'form-stacked'}
+  %input{:type => 'text', :name => 'list_name', :value => @list.name}
+  %input{:type => 'submit', :value => 'Submit', :class => 'btn primary'}
