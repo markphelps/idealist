@@ -1,0 +1,19 @@
+%h2 New Idea
+%form{:action => "/ideas/create/", :method => 'post', :class => 'form-stacked'}
+  %textarea{:name => 'idea_body'}
+  %input{:type => 'submit', :name => 'submit', :value => 'Submit', :class => 'btn primary'}
+
+%h2 All Ideas
+- if !@ideas.blank?
+  %dl
+    -for idea in @ideas
+      %dt
+        %a{:href => "/ideas/edit/#{idea.id}/"} #{idea.body}
+      %dd
+        =escape_html idea.updated_at.strftime("%B %d, %Y at %I:%M %p")
+        %form{:action => "/ideas/#{idea.id}", :method => 'post'}
+          %input{:type => 'hidden', :name => '_method', :value => 'delete'}
+          %input{:type => 'hidden', :name => 'id', :value => "#{idea.id}"}
+          %input{:type => 'submit', :value => 'Delete', :class => 'btn danger'}
+-else
+  %p No Ideas
