@@ -56,7 +56,7 @@ get '/api/ideas/:id/?', :provides => 'json' do
 end
 
 # Create an Idea
-post '/api/ideas/?' do
+post '/api/ideas/?', :provides => 'json' do
   data = JSON.parse(request.body.read.to_s)
   if data.nil? || !data.has_key?('body')
     status 400
@@ -74,7 +74,7 @@ post '/api/ideas/?' do
 end
 
 # Update an Idea
-put '/api/ideas/:id/?' do
+put '/api/ideas/:id/?', :provides => 'json' do
   idea = Idea.get(params['id'])
   if !idea
     status 404
@@ -96,7 +96,7 @@ put '/api/ideas/:id/?' do
 end
 
 # Delete an Idea
-delete '/api/ideas/:id/?' do
+delete '/api/ideas/:id/?', :provides => 'json' do
   idea = Idea.get(params['id'])
   if !idea
     status 404
@@ -117,7 +117,7 @@ get '/ideas/new/?' do
   haml :"ideas/new"
 end
 
-post '/ideas/create/?' do
+post '/ideas/create/?', :provides => 'html' do
   @idea = Idea.new(:body => params[:idea_body])
   if @idea.save
     redirect '/ideas/'
@@ -126,12 +126,12 @@ post '/ideas/create/?' do
   end
 end
 
-get '/ideas/edit/:id/?', :provides => 'html'  do
+get '/ideas/edit/:id/?', :provides => 'html' do
   @idea = Idea.get(params[:id])
   haml :"ideas/edit"
 end
 
-post '/ideas/update/:id/?' do
+post '/ideas/update/:id/?', :provides => 'html' do
   @idea = Idea.get(params[:id])
   @idea.body = params[:idea_body]
   if @idea.save
@@ -141,7 +141,7 @@ post '/ideas/update/:id/?' do
   end
 end
 
-delete '/ideas/:id/?' do
+delete '/ideas/:id/?', :provides => 'html' do
   @idea = Idea.get(params[:id])
   @idea.destroy
   redirect '/ideas/'
