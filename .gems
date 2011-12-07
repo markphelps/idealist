@@ -1,0 +1,9 @@
+rubygems
+sinatra
+dm-core
+dm-validations
+dm-timestamps
+dm-migrations
+logger
+json
+haml
