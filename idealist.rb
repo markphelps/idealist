@@ -1,21 +1,36 @@
+require 'rubygems'
 require 'sinatra'
 require 'dm-core'
 require 'dm-validations'
 require 'dm-timestamps'
 require 'dm-migrations'
+require 'logger'
 require 'json'
 require 'haml'
 
 use Rack::MethodOverride
 
-DataMapper.setup(:default, {
-  :socket => "/Applications/MAMP/tmp/mysql/mysql.sock",
-  :adapter => 'mysql',
-  :database => 'idealist',
-  :host => 'localhost',
-  :user => 'root',
-  :password => 'root'
-})
+configure :development do
+  DataMapper::Logger.new(STDOUT, :debug)
+  DataMapper.setup(:default, {
+    :socket => "/Applications/MAMP/tmp/mysql/mysql.sock",
+    :adapter => 'mysql',
+    :database => 'idealist_dev',
+    :host => 'localhost',
+    :user => 'root',
+    :password => 'root'
+  })
+end
+
+configure :production do
+  DataMapper.setup(:default, {
+    :adapter => 'mysql',
+    :database => 'idealist',
+    :host => 'localhost',
+    :user => 'root',
+    :password => ''
+  })
+end
 
 class Idea
   include DataMapper::Resource
