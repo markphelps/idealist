@@ -3,6 +3,7 @@ dm-core
 dm-validations
 dm-timestamps
 dm-migrations
+dm-mysql-adapter
 logger
 json
 haml
