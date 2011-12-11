@@ -4,14 +4,15 @@ require 'dm-core'
 require 'dm-validations'
 require 'dm-timestamps'
 require 'dm-migrations'
-require 'dm-mysql-adapter'
-require 'logger'
 require 'json'
 require 'haml'
 
 use Rack::MethodOverride
 
 configure :development do
+  require 'dm-mysql-adapter'
+  require 'logger'
+
   DataMapper::Logger.new(STDOUT, :debug)
   DataMapper.setup(:default, {
     :socket => "/Applications/MAMP/tmp/mysql/mysql.sock",
@@ -24,7 +25,7 @@ configure :development do
 end
 
 configure :production do
-  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3://my.db')
+  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 end
 
 class Idea
