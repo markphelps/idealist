@@ -25,6 +25,7 @@ configure :development do
 end
 
 configure :production do
+  require 'dm-postgres-adapter'
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
 end
 
