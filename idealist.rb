@@ -24,13 +24,7 @@ configure :development do
 end
 
 configure :production do
-  DataMapper.setup(:default, {
-    :adapter => 'mysql',
-    :database => 'idealist',
-    :host => 'localhost',
-    :user => 'root',
-    :password => ''
-  })
+  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3://my.db')
 end
 
 class Idea
