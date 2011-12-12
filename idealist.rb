@@ -44,7 +44,7 @@ class Idea
   end
 end
 
-DataMapper.finalize!
+DataMapper.finalize
 DataMapper.auto_migrate!
 
 ## API ##
