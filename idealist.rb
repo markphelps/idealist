@@ -26,7 +26,7 @@ end
 
 configure :production do
   require 'dm-postgres-adapter'
-  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://localhost/mydb')
+  DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
 
 class Idea
@@ -49,14 +49,14 @@ DataMapper.auto_migrate!
 
 ## API ##
 
-# Get all Ideas
+# Get all ideas
 get '/api/ideas/?', :provides => 'json' do
   ideas = Idea.all(:order => [:id.desc])
   status 200
   ideas.to_ary.to_json
 end
 
-# Get a single Idea
+# Get a single idea
 get '/api/ideas/:id/?', :provides => 'json' do
   idea = Idea.get(params['id'])
   if !idea
@@ -67,7 +67,7 @@ get '/api/ideas/:id/?', :provides => 'json' do
   end
 end
 
-# Create an Idea
+# Create an idea
 post '/api/ideas/?', :provides => 'json' do
   data = JSON.parse(request.body.read.to_s)
   if data.nil? || !data.has_key?('body')
@@ -85,7 +85,7 @@ post '/api/ideas/?', :provides => 'json' do
   end
 end
 
-# Update an Idea
+# Update an idea
 put '/api/ideas/:id/?', :provides => 'json' do
   idea = Idea.get(params['id'])
   if !idea
@@ -107,7 +107,7 @@ put '/api/ideas/:id/?', :provides => 'json' do
   end
 end
 
-# Delete an Idea
+# Delete an idea
 delete '/api/ideas/:id/?', :provides => 'json' do
   idea = Idea.get(params['id'])
   if !idea
@@ -124,15 +124,18 @@ get '/', :provides => 'html' do
   redirect '/ideas/'
 end
 
+# Get all ideas
 get '/ideas/?', :provides => 'html' do
   @ideas = Idea.all(:order => [:id.desc])
   haml :"ideas/index"
 end
 
+# Render new idea view
 get '/ideas/new/?' do
   haml :"ideas/new"
 end
 
+# Create an idea
 post '/ideas/create/?', :provides => 'html' do
   @idea = Idea.new(:body => params[:idea_body])
   if @idea.save
@@ -142,11 +145,13 @@ post '/ideas/create/?', :provides => 'html' do
   end
 end
 
+# Render idea edit view
 get '/ideas/edit/:id/?', :provides => 'html' do
   @idea = Idea.get(params[:id])
   haml :"ideas/edit"
 end
 
+# Update an idea
 post '/ideas/update/:id/?', :provides => 'html' do
   @idea = Idea.get(params[:id])
   @idea.body = params[:idea_body]
@@ -157,6 +162,7 @@ post '/ideas/update/:id/?', :provides => 'html' do
   end
 end
 
+# Delete an idea
 delete '/ideas/:id/?', :provides => 'html' do
   @idea = Idea.get(params[:id])
   @idea.destroy
