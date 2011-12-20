@@ -120,6 +120,10 @@ end
 
 ## HTML ##
 
+get '/', :provides => 'html' do
+  redirect '/ideas/'
+end
+
 get '/ideas/?', :provides => 'html' do
   @ideas = Idea.all(:order => [:id.desc])
   haml :"ideas/index"
