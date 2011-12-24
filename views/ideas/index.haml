@@ -14,6 +14,6 @@
         %form{:action => "/ideas/#{idea.id}", :method => 'post'}
           %input{:type => 'hidden', :name => '_method', :value => 'delete'}
           %input{:type => 'hidden', :name => 'id', :value => "#{idea.id}"}
-          %input{:type => 'submit', :value => 'Delete', :class => 'btn danger'}
+          %input{:type => 'submit', :value => 'Delete', :class => 'btn small danger'}
 -else
   %p No Ideas
