@@ -1,4 +1,3 @@
-%h2 Edit Idea
 %form{:action => "/ideas/update/#{@idea.id}/", :method => 'post', :class => 'form-stacked'}
   %textarea{:name => 'idea_body'}= @idea.body
   %input{:type => 'submit', :value => 'Submit', :class => 'btn primary'}
