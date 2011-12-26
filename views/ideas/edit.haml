@@ -1,3 +1,2 @@
-%form{:action => "/ideas/update/#{@idea.id}/", :method => 'post', :class => 'form-stacked'}
-  %textarea{:name => 'idea_body'}= @idea.body
-  %input{:type => 'submit', :value => 'Submit', :class => 'btn primary'}
+%form{:action => "/ideas/update/#{@idea.id}/", :method => 'post', :id => 'idea-form'}
+  %textarea{:name => 'idea_body',  :class => 'span16', :id => 'idea-textarea'}= @idea.body

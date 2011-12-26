@@ -130,19 +130,11 @@ get '/ideas/?', :provides => 'html' do
   haml :"ideas/index"
 end
 
-# Render new idea view
-get '/ideas/new/?' do
-  haml :"ideas/new"
-end
-
 # Create an idea
 post '/ideas/create/?', :provides => 'html' do
   @idea = Idea.new(:body => params[:idea_body])
-  if @idea.save
-    redirect '/ideas/'
-  else
-    redirect '/ideas/new/'
-  end
+  @idea.save
+  redirect '/ideas/'
 end
 
 # Render idea edit view
