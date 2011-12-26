@@ -1,5 +1,5 @@
 html, body {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   font-family: 'Stoke', serif;
 }
 
@@ -8,12 +8,17 @@ html, body {
   padding: 20px 10px;
 }
 
-.btn-delete {
-  background: url(/images/icon-delete.png) no-repeat top center;
-  text-indent: -1000em;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  border: 0;
+.btn-link {
+  border: none;
+  background-color: transparent;
   text-decoration: none;
+  color: #666666;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.form-inline {
+  display: inline;
 }
