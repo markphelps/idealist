@@ -1,2 +1,2 @@
-%form{:action => "/ideas/update/#{@idea.id}/", :method => 'post', :id => 'idea-form'}
+%form{:action => "/ideas/#{@idea.id}/", :method => 'post', :id => 'idea-form'}
   %textarea{:name => 'idea_body',  :class => 'span16', :id => 'idea-textarea'}= @idea.body

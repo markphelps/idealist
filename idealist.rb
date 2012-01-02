@@ -120,42 +120,42 @@ end
 
 ## HTML ##
 
-get '/', :provides => 'html' do
+get '/' do
   redirect '/ideas/'
 end
 
 # Get all ideas
-get '/ideas/?', :provides => 'html' do
+get '/ideas/?' do
   @ideas = Idea.all(:order => [:id.desc])
   haml :"ideas/index"
 end
 
 # Create an idea
-post '/ideas/create/?', :provides => 'html' do
+post '/ideas/create/?' do
   @idea = Idea.new(:body => params[:idea_body])
   @idea.save
   redirect '/ideas/'
 end
 
 # Render idea edit view
-get '/ideas/edit/:id/?', :provides => 'html' do
+get '/ideas/:id/?' do
   @idea = Idea.get(params[:id])
   haml :"ideas/edit"
 end
 
 # Update an idea
-post '/ideas/update/:id/?', :provides => 'html' do
+post '/ideas/:id/?' do
   @idea = Idea.get(params[:id])
   @idea.body = params[:idea_body]
   if @idea.save
     redirect '/ideas/'
   else
-    redirect "/ideas/edit/#{@idea.id}/"
+    redirect "/ideas/#{@idea.id}/"
   end
 end
 
 # Delete an idea
-delete '/ideas/:id/?', :provides => 'html' do
+delete '/ideas/:id/?' do
   @idea = Idea.get(params[:id])
   @idea.destroy
   redirect '/ideas/'
