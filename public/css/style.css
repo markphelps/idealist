@@ -3,9 +3,12 @@ html, body {
   font-family: 'Stoke', serif;
 }
 
-/* Page header tweaks */
 .page-header {
   padding: 20px 10px;
+}
+
+.idea {
+  margin-top: 10px;
 }
 
 .btn-link {
