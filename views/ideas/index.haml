@@ -1,5 +1,5 @@
 %form{:action => "/ideas/create/", :method => 'post', :id => 'idea-form'} 
-  %textarea{:name => 'idea_body', :class => 'span16', :id => 'idea-textarea'}
+  %textarea{:placeholder => "What's your idea?", :name => 'idea_body', :class => 'span16', :id => 'idea-textarea'}
 - if !@ideas.blank?
   -for idea in @ideas
     .idea
