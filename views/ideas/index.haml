@@ -2,10 +2,10 @@
   %textarea{:placeholder => "What's your idea?", :name => 'idea_body', :class => 'span16', :id => 'idea-textarea'}
 - if !@ideas.blank?
   -for idea in @ideas
-    .idea
+    %div{:class => 'idea', :id => "#{idea.id}"}
       %a{:href => "/ideas/#{idea.id}/"} #{idea.body}
       =escape_html idea.updated_at.strftime("%B %d, %Y at %I:%M %p")
-      %form{:action => "/ideas/#{idea.id}", :method => 'post', :class => 'form-inline'}
+      %form{:action => "/ideas/#{idea.id}", :method => 'post', :class => 'delete'}
         %input{:type => 'hidden', :name => '_method', :value => 'delete'}
         %input{:type => 'hidden', :name => 'id', :value => "#{idea.id}"}
         %button{:type => 'submit', :class => 'btn-link'} delete
