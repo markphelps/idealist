@@ -4,7 +4,7 @@
   -for idea in @ideas
     %div{:class => 'idea', :id => "#{idea.id}"}
       %a{:href => "/ideas/#{idea.id}/"} #{idea.body}
-      =escape_html idea.updated_at.strftime("%B %d, %Y at %I:%M %p")
+      =escape_html idea.updated_at.strftime("%B %d, %Y at %l:%M %p")
       %form{:action => "/ideas/#{idea.id}", :method => 'post', :class => 'delete'}
         %input{:type => 'hidden', :name => '_method', :value => 'delete'}
         %input{:type => 'hidden', :name => 'id', :value => "#{idea.id}"}

@@ -25,3 +25,7 @@ html, body {
 form.delete {
   display: inline;
 }
+
+#idea-textarea {
+  height: 80px;
+}
