@@ -1,11 +1,4 @@
 require 'rubygems'
-require 'sinatra'
-require 'dm-core'
-require 'dm-validations'
-require 'dm-timestamps'
-require 'dm-migrations'
-require 'json'
-require 'haml'
 
 use Rack::MethodOverride
 
@@ -51,7 +44,7 @@ helpers do
   include Rack::Utils
   alias_method :h, :escape_html
 end
-	
+
 ## API ##
 
 # Get all ideas

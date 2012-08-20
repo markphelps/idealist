@@ -8,6 +8,9 @@ gem 'json'
 gem 'haml'
 
 group :development do
+  gem 'foreman'
+  gem 'thin'
+  gem 'mysql2'
   gem 'dm-mysql-adapter'
 end
 

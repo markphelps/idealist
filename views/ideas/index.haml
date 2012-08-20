@@ -1,10 +1,10 @@
-%form{:action => "/ideas/create/", :method => 'post', :id => 'idea-form'} 
+%form{:action => "/ideas/create/", :method => 'post', :id => 'idea-form'}
   %textarea{:placeholder => "What's your idea?", :name => 'idea_body', :class => 'span16', :id => 'idea-textarea'}
 - if !@ideas.blank?
   -for idea in @ideas
     %div{:class => 'idea', :id => "#{idea.id}"}
       %a{:href => "/ideas/#{idea.id}/"} #{h idea.body}
-      =escape_html idea.updated_at.strftime("%B %d, %Y at %l:%M %p")
+      %p=escape_html idea.updated_at.strftime("%B %d, %Y at %l:%M %p")
       %form{:action => "/ideas/#{idea.id}", :method => 'post', :class => 'delete'}
         %input{:type => 'hidden', :name => '_method', :value => 'delete'}
         %input{:type => 'hidden', :name => 'id', :value => "#{idea.id}"}
