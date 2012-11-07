@@ -1,6 +1,6 @@
 html, body {
   background-color: #ffffff;
-  background: url(../images/goovepaper.png);
+  background: url(../img/goovepaper.png);
   font-family: 'Stoke', serif;
 }
 
@@ -23,10 +23,11 @@ html, body {
   text-decoration: underline;
 }
 
-form.delete {
+.delete {
   display: inline;
 }
 
 #idea-textarea {
   height: 80px;
+  width: 100%;
 }
