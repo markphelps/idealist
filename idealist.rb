@@ -1,24 +1,16 @@
 require 'rubygems'
+require 'dm-postgres-adapter'
 
 use Rack::MethodOverride
 
 configure :development do
-  require 'dm-mysql-adapter'
   require 'logger'
 
   DataMapper::Logger.new(STDOUT, :debug)
-  DataMapper.setup(:default, {
-    :socket => "/Applications/MAMP/tmp/mysql/mysql.sock",
-    :adapter => 'mysql',
-    :database => 'idealist_dev',
-    :host => 'localhost',
-    :user => 'root',
-    :password => 'root'
-  })
+  DataMapper.setup(:default, "postgres://#{ENV['DB_USER']}@localhost/idealist_dev")
 end
 
 configure :production do
-  require 'dm-postgres-adapter'
   DataMapper.setup(:default, ENV['DATABASE_URL'])
 end
 

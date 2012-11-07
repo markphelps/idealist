@@ -12,9 +12,6 @@ GEM
       dm-core (~> 1.2.0)
     dm-migrations (1.2.0)
       dm-core (~> 1.2.0)
-    dm-mysql-adapter (1.2.0)
-      dm-do-adapter (~> 1.2.0)
-      do_mysql (~> 0.10.6)
     dm-postgres-adapter (1.2.0)
       dm-do-adapter (~> 1.2.0)
       do_postgres (~> 0.10.6)
@@ -22,8 +19,6 @@ GEM
       dm-core (~> 1.2.0)
     dm-validations (1.2.0)
       dm-core (~> 1.2.0)
-    do_mysql (0.10.8)
-      data_objects (= 0.10.8)
     do_postgres (0.10.8)
       data_objects (= 0.10.8)
     eventmachine (0.12.10)
@@ -31,7 +26,6 @@ GEM
       thor (>= 0.13.6)
     haml (3.1.7)
     json (1.7.5)
-    mysql2 (0.3.11)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -52,13 +46,11 @@ PLATFORMS
 DEPENDENCIES
   dm-core
   dm-migrations
-  dm-mysql-adapter
   dm-postgres-adapter
   dm-timestamps
   dm-validations
   foreman
   haml
   json
-  mysql2
   sinatra
   thin

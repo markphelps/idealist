@@ -6,14 +6,9 @@ gem 'dm-timestamps'
 gem 'dm-migrations'
 gem 'json'
 gem 'haml'
+gem 'dm-postgres-adapter'
 
 group :development do
   gem 'foreman'
   gem 'thin'
-  gem 'mysql2'
-  gem 'dm-mysql-adapter'
-end
-
-group :production do
-  gem 'dm-postgres-adapter'
 end
