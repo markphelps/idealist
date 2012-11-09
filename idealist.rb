@@ -7,12 +7,9 @@ configure :development do
   require 'logger'
 
   DataMapper::Logger.new(STDOUT, :debug)
-  DataMapper.setup(:default, "postgres://#{ENV['DB_USER']}@localhost/idealist_dev")
 end
 
-configure :production do
-  DataMapper.setup(:default, ENV['DATABASE_URL'])
-end
+DataMapper.setup(:default, ENV['DATABASE_URL'])
 
 class Idea
   include DataMapper::Resource
