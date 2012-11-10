@@ -9,7 +9,7 @@ html, body {
 }
 
 .idea {
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .btn-link {
@@ -29,5 +29,5 @@ html, body {
 
 #idea-textarea {
   height: 80px;
-  width: 100%;
+  width: 920px;
 }
