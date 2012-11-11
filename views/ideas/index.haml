@@ -6,10 +6,10 @@
   -for idea in @ideas
     .row
       .idea
-        .span7
+        .span8
           %a{:href => "/ideas/#{idea.id}/"} #{h idea.body}
-        .span4
-          =escape_html idea.updated_at.strftime("%B %d, %Y at %l:%M %p")
+        .span3
+          =escape_html idea.updated_at.strftime("%m/%d/%y at %l:%M %p")
         .span1
           %form{:action => "/ideas/#{idea.id}", :method => 'post', :class => 'delete'}
             %input{:type => 'hidden', :name => '_method', :value => 'delete'}
