@@ -10,5 +10,6 @@ gem 'dm-postgres-adapter'
 
 group :development do
   gem 'foreman'
+  gem 'shotgun'
   gem 'thin'
 end

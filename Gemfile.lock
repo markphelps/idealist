@@ -29,6 +29,8 @@ GEM
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
+    shotgun (0.9)
+      rack (>= 1.0)
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -52,5 +54,6 @@ DEPENDENCIES
   foreman
   haml
   json
+  shotgun
   sinatra
   thin
